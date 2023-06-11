@@ -290,9 +290,7 @@ textarea[disabled] {
   flex-flow: column wrap;
   justify-content: space-between;
   width: 100%;
-  max-width: 867px;
-  margin: 25px 10px;
-  height: calc(100% - 50px);
+  min-height: 100vh;
   border: var(--border);
   border-radius: 5px;
   background: var(--msger-bg);
@@ -420,4 +418,62 @@ textarea[disabled] {
 
 .msger-send-btn:hover {
   background: rgb(0, 180, 50);
+}
+a {
+  font-size: 22px;
+  color: #03a9f4;
+  text-decoration: none;
+}
+.the-chat {
+  min-height: 97vh;
+  padding: 10px 20px;
+  position: relative;
+}
+.the-chat .form-control {
+  position: absolute;
+  bottom: 30px;
+}
+.chating {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+}
+.chating.right {
+  align-items: end;
+}
+.chating p {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  background-color: #2196f3;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 5px;
+  position: relative;
+}
+.chating p::before {
+  content: "";
+  position: absolute;
+  border-width: 14px;
+  border-color: transparent #2196f3 #00800000 #0000ff00;
+  border-style: solid;
+  left: 9px;
+  transform: rotate(90deg);
+  bottom: 40px;
+}
+.chating h3 {
+  margin: 0;
+}
+.chating.right p {
+  background-color: #333;
+}
+.chating.right p::before {
+  content: "";
+  position: absolute;
+  border-width: 10px;
+  border-color: transparent #333333 #00800000 #0000ff00;
+  border-style: solid;
+  left: 89px;
+  transform: rotate(90deg);
+  bottom: 44px;
 }

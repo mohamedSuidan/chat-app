@@ -10,12 +10,14 @@ function Signin() {
     url: "/signin",
   });
 
-  const signin = () => {
+  const signin = async () => {
     postData({
       email: email,
       password: password,
     });
-    navigate("/");
+    setTimeout(() => {
+      window.location.replace("/");
+    }, 300);
   };
 
   return (

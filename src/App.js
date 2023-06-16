@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 import Chating from "./Chating";
 function App() {
   const socket = io.connect("http://localhost:4000"); // backend server link
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user"))
+    ? JSON.parse(localStorage.getItem("user"))
+    : {};
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [users, setUsers] = useState([]);
   const [userId, setUserId] = useState("");
@@ -33,6 +35,10 @@ function App() {
     setUserId(e.target.id);
     setName(e.target.dataset.name);
   };
+  const signout = () => {
+    localStorage.removeItem("user");
+    window.location.reload();
+  };
   return (
     <div className="chat">
       <div className="row">
@@ -59,6 +65,9 @@ function App() {
                 );
               })
             : ""}
+          <div className="signout">
+            <button onClick={signout}>Signout</button>
+          </div>
         </div>
         <div className="col-2">
           {userId !== "" ? (

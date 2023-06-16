@@ -26,14 +26,14 @@ const router = createBrowserRouter([
   },
   {
     path: "/",
-    element: localStorage.getItem("user") ? <App /> : <Navigate to="/sginup" />,
+    element: localStorage.getItem("user") ? <App /> : <Navigate to="/signup" />,
   },
   {
     path: "/chat/:id",
     element: localStorage.getItem("user") ? (
       <Chat />
     ) : (
-      <Navigate to="/sginup" />
+      <Navigate to="/signup" />
     ),
   },
 ]);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import { Link } from "react-router-dom";
 function Chating({ userId_recever, socket, user, name }) {
   const [chatId, setChatId] = useState();
   const [msg, setMsg] = useState("");
@@ -8,15 +8,26 @@ function Chating({ userId_recever, socket, user, name }) {
 
   useEffect(() => {
     const create_chat_id = async () => {
-      let chat_id = await axios.post("http://localhost:4000/add-chat-info", {
-        user_id_1: user.user_id,
-        user_id_2: userId_recever,
-      });
+      let chat_id = await axios.post(
+        "http://localhost:4000/add-chat-info",
+        {
+          user_id_1: user.user_id,
+          user_id_2: userId_recever,
+        },
+        {
+          headers: {
+            Authorization: user.token,
+          },
+        }
+      );
       setChatId(chat_id.data.chat_id);
       console.log(chat_id.data.chat_id);
       const dataOfChat = await axios.get("http://localhost:4000/chat", {
         params: {
           chat_id: chat_id.data.chat_id,
+        },
+        headers: {
+          Authorization: user.token,
         },
       });
       console.log(dataOfChat);
@@ -24,7 +35,7 @@ function Chating({ userId_recever, socket, user, name }) {
       socket.emit("join_room", chat_id.data.chat_id._id);
     };
     create_chat_id();
-  }, []);
+  }, [userId_recever]);
   useEffect(() => {
     socket.on("receved", (data) => {
       setData((ele) => [...ele, data]);
@@ -54,16 +65,24 @@ function Chating({ userId_recever, socket, user, name }) {
         user_id_reciver: userId_recever,
       },
     ]);
-    await axios.post("http://localhost:4000/chat", {
-      chatId: chatId._id,
-      msg: msg,
-      user_id_sender: user.user_id,
-      name_sender: user.name,
-      time: `${new Date(Date.now()).getHours()} : ${new Date(
-        Date.now()
-      ).getMinutes()}`,
-      user_id_reciver: userId_recever,
-    });
+    await axios.post(
+      "http://localhost:4000/chat",
+      {
+        chatId: chatId._id,
+        msg: msg,
+        user_id_sender: user.user_id,
+        name_sender: user.name,
+        time: `${new Date(Date.now()).getHours()} : ${new Date(
+          Date.now()
+        ).getMinutes()}`,
+        user_id_reciver: userId_recever,
+      },
+      {
+        headers: {
+          Authorization: user.token,
+        },
+      }
+    );
   };
 
   return (

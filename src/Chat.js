@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 
 function Chat() {
-  const socket = io.connect("http://localhost:4000"); // backend server link
+  const socket = io.connect("https://chat-apps-server.onrender.com"); // backend server link
   const user = JSON.parse(localStorage.getItem("user"));
   const { id } = useParams();
   const [chatId, setChatId] = useState();
@@ -13,17 +13,23 @@ function Chat() {
   const [data, setData] = useState([]);
   useEffect(() => {
     const create_chat_id = async () => {
-      let chat_id = await axios.post("http://localhost:4000/add-chat-info", {
-        user_id_1: user.user_id,
-        user_id_2: id,
-      });
+      let chat_id = await axios.post(
+        "https://chat-apps-server.onrender.com/add-chat-info",
+        {
+          user_id_1: user.user_id,
+          user_id_2: id,
+        }
+      );
       setChatId(chat_id.data.chat_id);
       setUser(chat_id.data.reciver);
-      const dataOfChat = await axios.get("http://localhost:4000/chat", {
-        params: {
-          chat_id: chat_id.data.chat_id,
-        },
-      });
+      const dataOfChat = await axios.get(
+        "https://chat-apps-server.onrender.com/chat",
+        {
+          params: {
+            chat_id: chat_id.data.chat_id,
+          },
+        }
+      );
       console.log(dataOfChat);
       setData(dataOfChat.data.chat);
       socket.emit("join_room", chat_id.data.chat_id._id);
@@ -46,7 +52,7 @@ function Chat() {
       ).getMinutes()}`,
       user_id_reciver: id,
     });
-    await axios.post("http://localhost:4000/chat", {
+    await axios.post("https://chat-apps-server.onrender.com/chat", {
       chatId: chatId._id,
       msg: msg,
       user_id_sender: user.user_id,

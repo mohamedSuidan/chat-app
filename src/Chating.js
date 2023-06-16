@@ -9,7 +9,7 @@ function Chating({ userId_recever, socket, user, name }) {
   useEffect(() => {
     const create_chat_id = async () => {
       let chat_id = await axios.post(
-        "http://localhost:4000/add-chat-info",
+        "https://chat-apps-server.onrender.com/add-chat-info",
         {
           user_id_1: user.user_id,
           user_id_2: userId_recever,
@@ -22,14 +22,17 @@ function Chating({ userId_recever, socket, user, name }) {
       );
       setChatId(chat_id.data.chat_id);
       console.log(chat_id.data.chat_id);
-      const dataOfChat = await axios.get("http://localhost:4000/chat", {
-        params: {
-          chat_id: chat_id.data.chat_id,
-        },
-        headers: {
-          Authorization: user.token,
-        },
-      });
+      const dataOfChat = await axios.get(
+        "https://chat-apps-server.onrender.com/chat",
+        {
+          params: {
+            chat_id: chat_id.data.chat_id,
+          },
+          headers: {
+            Authorization: user.token,
+          },
+        }
+      );
       console.log(dataOfChat);
       setData(dataOfChat.data.chat);
       socket.emit("join_room", chat_id.data.chat_id._id);
@@ -66,7 +69,7 @@ function Chating({ userId_recever, socket, user, name }) {
       },
     ]);
     await axios.post(
-      "http://localhost:4000/chat",
+      "https://chat-apps-server.onrender.com/chat",
       {
         chatId: chatId._id,
         msg: msg,

@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Chating from "./Chating";
 function App() {
-  const socket = io.connect("http://localhost:4000"); // backend server link
+  const socket = io.connect("https://chat-apps-server.onrender.com"); // backend server link
   const user = JSON.parse(localStorage.getItem("user"))
     ? JSON.parse(localStorage.getItem("user"))
     : {};
@@ -14,7 +14,9 @@ function App() {
   const [name, setName] = useState("");
   useEffect(() => {
     const fetchData = async () => {
-      let usersData = await axios.get("http://localhost:4000/get-users");
+      let usersData = await axios.get(
+        "https://chat-apps-server.onrender.com/get-users"
+      );
       setUsers(usersData.data);
     };
     fetchData();

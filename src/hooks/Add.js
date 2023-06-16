@@ -4,7 +4,7 @@ import { useState } from "react";
 
 function Add({ url }) {
   const [res, setResponse] = useState([]);
-  axios.defaults.baseURL = "http://localhost:4000";
+  axios.defaults.baseURL = "https://chat-apps-server.onrender.com";
 
   const postData = (data) => {
     axios
